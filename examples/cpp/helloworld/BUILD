@@ -15,6 +15,16 @@
 licenses(["notice"])  # 3-clause BSD
 
 cc_binary(
+    name = "sde",
+    srcs = ["sde.cc", "greeter_client.cc", "greeter_async_server.cc"],
+    defines = ["BAZEL_BUILD"],
+    deps = [
+        "//:grpc++",
+        "//examples/protos:helloworld_cc_grpc",
+    ],
+)
+
+cc_binary(
     name = "greeter_client",
     srcs = ["greeter_client.cc"],
     defines = ["BAZEL_BUILD"],

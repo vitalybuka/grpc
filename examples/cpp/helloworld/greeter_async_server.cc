@@ -49,8 +49,8 @@ class ServerImpl final {
   }
 
   // There is no shutdown handling in this code.
-  void Run() {
-    std::string server_address("0.0.0.0:50051");
+  void Run(int port) {
+    std::string server_address("127.0.0.1:" + std::to_string(port));
 
     ServerBuilder builder;
     // Listen on the given address without any authentication mechanism.
@@ -101,7 +101,7 @@ class ServerImpl final {
         new CallData(service_, cq_);
 
         // The actual processing.
-        std::string prefix("Hello ");
+        std::string prefix(10000, 'h');
         reply_.set_message(prefix + request_.name());
 
         // And we are done! Let the gRPC runtime know we've finished, using the
@@ -163,9 +163,7 @@ class ServerImpl final {
   std::unique_ptr<Server> server_;
 };
 
-int main(int argc, char** argv) {
+void RunServer(int port) {
   ServerImpl server;
-  server.Run();
-
-  return 0;
+  server.Run(port);
 }
